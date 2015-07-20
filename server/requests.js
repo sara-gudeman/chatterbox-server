@@ -1,7 +1,18 @@
 var database = require('./database');
 
 module.exports.respondToGetRequest = function(request) {
-  return database.users;
+  if (request.url === '/users') {
+    return database.users;
+  }  
+
+  if (request.url === '/rooms') {
+    console.log(request.url);
+    return database.rooms;
+  }
+
+  if (request.url === '/messages') {
+    return database.messages;
+  }
 };
 
 
