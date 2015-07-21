@@ -11,12 +11,21 @@ module.exports = function(request, response) {
   console.log('url request', request.url, 'method request', request.method);
 
   if (request.method === 'GET') {
+    if (request.url.indexOf('/classes') === -1) {
+      statusCode = 404;
+      results = JSON.stringify({results: messages});
+      response.writeHead(statusCode, headers);
+      response.end(results);  
+    }
+
     statusCode = 200;
     results = JSON.stringify({results: messages});
     response.writeHead(statusCode, headers);
     response.end(results);
   }
-
+  
+  // if request.url does not exist
+  // return 404
   
   if (request.method === 'OPTIONS') {
     statusCode = 202;
