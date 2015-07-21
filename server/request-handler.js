@@ -1,21 +1,22 @@
 var requests = require('./requests');
+var messages = require('./database.js');
 
-module.exports = function(request, response) {
-  
+
+module.exports = function(request, response) {  
   var results;
   console.log('url request', request.url, 'method request', request.method);
+  results = JSON.stringify(messages);
+  // if (request.method === 'GET') {
+  //   results = requests.respondToGetRequest(request);
+  // } 
 
-  if (request.method === 'GET') {
-    results = requests.respondToGetRequest(request);
-  } 
+  // if (request.method === 'POST') {
+  //   results = requests.respondToPostRequest(request);
+  // } 
 
-  if (request.method === 'POST') {
-    results = requests.respondToPostRequest(request);
-  } 
-
-  if (request.method === 'OPTIONS') {
-    results = requests.respondToOptionsRequest(request);
-  }
+  // if (request.method === 'OPTIONS') {
+  //   results = requests.respondToOptionsRequest(request);
+  // }
 
   // console.log("Serving request type " + request.method + " for url " + request.url);
 
@@ -29,8 +30,9 @@ module.exports = function(request, response) {
 
   // Make sure to always call response.end() - Node may not send
 
-  results = JSON.stringify({'results': results});
+  // results = JSON.stringify({'results': results});
 
+  console.log(results);
   response.end(results);
 };
 

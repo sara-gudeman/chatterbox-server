@@ -2,12 +2,12 @@ var database = require('./database');
 
 module.exports.respondToGetRequest = function(request) {
   if (request.url === '/users') {
-    return database.users;
+    return database.messages;
   }  
 
   if (request.url === '/rooms') {
     console.log(request.url);
-    return database.rooms;
+    return database.messages;
   }
 
   if (request.url === '/messages') {

@@ -57,12 +57,12 @@ $(function() {
     },
     fetch: function(animate) {
       $.ajax({
-        url: app.server + '/messages',
+        url: app.server,
         type: 'GET',
         contentType: 'application/json',
         // data: { order: '-createdAt'},
         success: function(data) {
-
+          console.log(data);
           // Don't bother if we have nothing to work with
           if (!data.results || !data.results.length) { console.log('hi'); return; }
 
