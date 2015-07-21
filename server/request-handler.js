@@ -1,6 +1,8 @@
 // var messages = require('./database.js');
 var messages = [{ username: 'sara', text: 'node, mon!', room: 'nodeModules', date: 'Mon Jul 20 2015 16:35:34 GMT-0700 (PDT)'}, { username: 'eliot', text: 'no, demon', room: 'nodeModules'}];
-module.exports = function(request, response) {  
+exports = module.exports = {};
+
+var requestHandler = function(request, response) {  
   var results;
   var statusCode;
 
@@ -28,7 +30,7 @@ module.exports = function(request, response) {
   // return 404
   
   if (request.method === 'OPTIONS') {
-    statusCode = 202;
+    statusCode = 200;
     response.writeHead(statusCode, headers);
     response.end(results);
 
@@ -59,3 +61,4 @@ var defaultCorsHeaders = {
   "access-control-max-age": 10 // Seconds.
 };
 
+exports.requestHandler = requestHandler;
