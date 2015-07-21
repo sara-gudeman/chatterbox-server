@@ -1,39 +1,46 @@
-var requests = require('./requests');
-var messages = require('./database.js');
-
-
+// var messages = require('./database.js');
+var messages = [{ username: 'sara', text: 'node, mon!', room: 'nodeModules', date: 'Mon Jul 20 2015 16:35:34 GMT-0700 (PDT)'}, { username: 'eliot', text: 'no, demon', room: 'nodeModules'}];
 module.exports = function(request, response) {  
   var results;
+  var statusCode;
+
+  var headers = defaultCorsHeaders;
+  headers['Content-Type'] = "application/json";
+  results = JSON.stringify({'results': messages});
+  
   console.log('url request', request.url, 'method request', request.method);
-  results = JSON.stringify(messages);
-  // if (request.method === 'GET') {
-  //   results = requests.respondToGetRequest(request);
-  // } 
 
-  // if (request.method === 'POST') {
-  //   results = requests.respondToPostRequest(request);
-  // } 
+  if (request.method === 'GET') {
+    statusCode = 200;
+    results = JSON.stringify({results: messages});
+    response.writeHead(statusCode, headers);
+    response.end(results);
+  }
 
-  // if (request.method === 'OPTIONS') {
-  //   results = requests.respondToOptionsRequest(request);
-  // }
+  
+  if (request.method === 'OPTIONS') {
+    statusCode = 202;
+    response.writeHead(statusCode, headers);
+    response.end(results);
+
+  }
+
+  if (request.method === 'POST') {
+    statusCode = 201;
+
+    request.on('data', function(data){
+      messages.unshift(JSON.parse(data.toString()));
+      console.log(data.toString());
+      response.writeHead(statusCode, headers);
+      response.end(results);
+    });
+
+    // messages.push({username: 'request' /* username */, message: /* message */ null});
+  }
 
   // console.log("Serving request type " + request.method + " for url " + request.url);
 
-  var statusCode = 200;
 
-  var headers = defaultCorsHeaders;
-
-  headers['Content-Type'] = "application/json";
-
-  response.writeHead(statusCode, headers);
-
-  // Make sure to always call response.end() - Node may not send
-
-  // results = JSON.stringify({'results': results});
-
-  console.log(results);
-  response.end(results);
 };
 
 var defaultCorsHeaders = {
